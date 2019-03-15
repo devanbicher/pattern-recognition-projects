@@ -1,0 +1,125 @@
+General description of my solution:
+I used MatLab to write and execute my program for part3. The way I attacked the problem was to first pull in the number of x's in both the E and C files.
+I simply stored the number of x's in an array, or vector in MatLab, for e's and one for c's.  With the number of x's stored I used the simple 'hist()' function
+matlab to generate the histogram for the numbers of x's in both the c and e files.  After the histogram is generated I found the smallest and largest 
+black-areas out of both the e and c files.  I used a brute force strategy for finding the optimal threshold value; I started looping at the smallest black area 
+and went through to the largest, checking each area in both c and e arrays.  I kept track of the number of misclassifications, which I just called errors, and
+if the new threshold had less misclassifications in total, so between both e and c values, it kept that new threshold. In the end my program found that the best
+threshold for this data is 44 with 19 misclassified C's and 21 misclassified E's. 
+
+a. I used the inequality of the form "if (black-area <= T) decide 'c'; else decide 'e';"  This form worked better, and made more sense, since in general the 
+e's had more area than the c's. Which makes sense just by looking at the letters themselves.  
+
+b. 44 19 21
+
+c. I think that the small difference in mislcassifications between e's and c's is due to the fact that there is more area in the e's in general and so there is
+more room for fluctuations. The letter e itself, in the lower case like we were supposed to look at, is more exagerrated than c; since it builds off of c by having
+the extra curl inside of the c itself. So with this extra black-area required there is more room for fluctuations in the area of the letter which resulted in more 
+incorrect classifications.
+
+d.
+Below is my code, in 2 parts, the first is the main script which calls the function countXs, which is in a separate .m file and is part 2 of my code here.
+
+PART 1:
+
+%Take in the data for the C's
+cFile = fopen('HW1_c.txt');
+cCount = [];
+disp('SHOWING C COUNTS...');
+cCount = countXs(cFile);
+disp('SHOWING C COUNT ARRAY:');
+disp(cCount);
+fclose(cFile);
+
+%Take in the data for the E's
+disp('SHOWING E COUNTS...');
+eFile = fopen('HW1_e.txt');
+eCount = [];
+eCount = countXs(eFile);
+disp('SHOWING E COUNT ARRAY:');
+disp(eCount);
+fclose(eFile);
+
+%find the smallest and largest number of pixels
+small = min([min(cCount),min(eCount)]);
+large = max([max(cCount),max(eCount)]);
+
+disp(small);
+disp(large);
+
+%variables remembering the least number of errors, or miscalssifcations
+bestThresh = small;
+errors = 200;
+lowestCerror = 100;
+lowestEerror = 100;
+
+%Go through each number of pixels trying each one out as the threshold value
+for t = small:large
+   eError = 0;
+   cError = 0;
+    for i = 1:100
+		%if a value in the list of C pixels is greater than t it was misclassified
+       if cCount(i) >= t
+           cError = cError + 1;
+       end
+       
+       if eCount(i) < t
+            eError = eError + 1;
+       end
+    end
+	
+	%check the number of errors at each threshold
+	if (cError + eError) < errors
+		bestThresh = t;
+		errors = cError + eError;
+		lowestCerror = cError;
+		lowestEerror = eError;
+	end
+end
+
+disp(['The best threshold is: ',num2str(bestThresh)]);
+disp(['There are ',num2str(lowestCerror), ' misclassified Cs']);
+disp(['There are ',num2str(lowestEerror), ' misclassified Es']);
+   
+   
+
+PART 2:
+
+function total = countXs(myFile)
+    total = [];
+    for i = 1:100
+		line = fgetl(myFile);
+		text = textscan(line, '%s %s %s %s');
+
+		% Get the height of each image
+		height = strrep(text{2}, 'h', '');
+		height = str2num(height{1});
+
+		% Get the width of each image
+		width = strrep(text{3}, 'w', '');
+		width = str2num(width{1});
+
+		xCount = 0;
+		% Count all of the X's in each image
+		for n = 1:height
+			line = fgetl(myFile);
+			for x = 1:width
+				if line(x:x) == 'x'
+					xCount = xCount + 1;
+				end
+			end
+		end
+		disp(xCount);
+		total = [total, xCount];
+
+    end
+	
+	disp('Histogram for number of Xs');
+	hist(total,100);
+end
+
+
+EXTRA CREDIT:
+I did not create and run the code for this feature, but I think it would still work conceptually.  My feature would test for the pressence of the extra curl
+in the e that is not in the c.  It would test this by simply looking half-way up the height of the e and if pixels, or x's, are there they it's because of
+extra loop that is in e, not c, the  curve in c should end well before halfway up the height of the letter.

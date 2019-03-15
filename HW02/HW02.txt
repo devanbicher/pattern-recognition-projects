@@ -1,0 +1,291 @@
+Devan Bicher
+CSE 426
+Spring 2015
+Homework 2
+
+TASK A:
+	part 1:
+		on the first files The best threshold is: 223
+		There are 22 misclassified Cs, error rate .055
+		There are 4 misclassified Es, error rate .01
+	
+	part 2:
+		in order the following error rates are:
+
+		2, C's: .0675
+		2, E's: .0175
+
+		3, C's: .065
+		3, E's: .02
+
+		4, C's: .05
+		4, E's: .01
+
+		5, C's: .075
+		5, E's: .0125
+
+		6, C's: .055
+		6, E's: .0175
+
+		7, C's: .0525
+		7, E's: .01
+
+		8, C's: .0525
+		8, E's: .015
+
+		9, C's: .0475
+		9, E's: .0000      <--- WHAT!? I double checked this and it seems to be right.
+
+		10, C's: .0575
+		10, E'S: .015
+
+		The average error rate for the C's is .0581 with a standard deviation of .0092
+		The average error rate for the C's is .0131 with a standard deviation of .0060
+		
+	part 3: Discussion:
+		For the most part the error rates for E when testing on the testing set is lower than when testing on the training set, this is
+		to be expected since the threshold was decided on the training set and will therefore tend to fit that sample slightly better. This does not mean
+		this is always the case however since there is one instance where the error rate is the same, and another instance, shockingly, where the error
+		rate was actually zero for the E's.  I don't know why this is the case, I double checked this set and there doesn't seem to be any problem with it
+		or with the way it was executed, I did this one no differently than the others, but this outcome is not impossible just unlikely.  I have no concrete
+		explanation for this other than it was a happy fluke, that this sample set for the E's fit the threshold classifier perfectly.
+		The other aspect of this that is important is that clearly this classified does a better job correctly labelling the E's than it does the C's.  This
+		seems to make sense since if my classifier identifies a "top-heavy" letter it will call it an E, this is good for the E's as they are almost all always
+		top-heavy, however a C could easily be warped or heavy on the top and will be labelled as such, when is it simply a top heavy C, not an E.
+		This can be seen by the consistently higher error rates for the C's over the E's.
+		I do not have a good explanation, however, for why there are some testing sets that have a lower error rate for C than the training set.  This is more
+		likely an artifact of the dataset construction, that these sets simply have more misshapen C's that are top heavy.  Since each set varies in its collection
+		of differently shaped C's than there will almost certainly be some sets that have more top heavy C's in them, it is just strange that about half of them have
+		numerous top-heavy C's, or atleast more top-heavy than the training set, this I do not have an explanation for other than randomness.
+		
+TASK B:
+
+	part 1:
+		With this larger dataset the best threshold for the top Heavy feature is 229
+		For testing on the training data there are 84 misclassified C's, error rate of .042
+			And there are 52 misclassified E's, error rate of .026
+	
+	part 2:
+		Using the same threshold, 229 but now testing on the larger testing set:
+		There are 78 misclassified C's, error rate of , .039
+		And there are 48 misclassified E's, error rate of .024
+	
+	part 3: Discussion:
+		Once again the E's had a much better error rate than the C's did, this is significant, but the reasoning is the same as above and this is expected.
+		However there is something strange here worth noting and that is that the error rates are somehow just slightly lower for the testing samples than the 
+		training samples.  The differnce is minimal but that fact that it is lower is certainly strange as it is expected that the classifier will perform better
+		on the sample set that it was trained on that a completely new set, the testing set.  Once again I have no concrete explanation other than random chance 
+		allowed for this testing set to accomodate the threshold value slightly better than the training set.
+		The error rate was better for the C's in this larger sample set experiment, I would expect this since there are far more samples to approach a better
+		threshold approximation that fits the C better. However the error rate for the E's was higher than in the first part this might simply be from there being 
+		more samples and a higher chance of more E's relative to the sample size being misclassified. it would also make sense that if there are more correctly labelled 
+		C's than there will be more incorrectly labelled E's, the ones that would have been caught had the top heavy threshold been lower. 
+TASK C:
+	part 1/2: below are all of the threshold and error rates for each run, where the number is the test set.
+		
+		1 Thresh: 228
+		1, C's: .0475
+		1, E's: .0275
+		
+		2 Thresh: 230
+		2, C's: .0475
+		2, E's: .0325
+		
+		3 Thresh: 228
+		3, C's: .0375
+		3, E's: .035
+		
+		4 Thresh: 228
+		4, C's: .0375
+		4, E's: .0175
+		
+		5 Thresh: 228
+		5, C's: .0525
+		5, E's: .025
+		
+		6 Thresh: 230
+		6, C's: .0375
+		6, E's: .0325
+
+		7 Thresh: 228
+		7, C's: .045
+		7, E's: .0175
+		
+		8 Thresh: 228
+		8, C's: .0425
+		8, E's: .0275
+	
+		9 Thresh: 228
+		9, C's: .0375
+		9, E's: .01      
+		
+		10 Thresh: 228
+		10, C's: .0325
+		10, E'S: .02
+		
+		The average error for the C's is .0417 with a standard deviation of .0062
+		The average error for the C's is .0245 with a standard deviation of .0081
+		
+		
+	part 3: Discussion:
+		Once again the error rates for E's were lower than C's for the whole set. Additionally these values seem to fall perfectly in between the error rates for parts
+		1 and 2.  Since the training set was so large for each run of this portion it would make sense that the error rates are lower than the relatively small training
+		set from the first portion.  Perhaps this range of error rates are simply as low as this sample of training and testing sets will ever get for this collection of
+		data given this simplistic type of classifier.  For such a simple classified it is unlikely that it will be perfect for such a diverse set of data, the letters 
+		do ten to vary a lot, especially in this upper "top-heavy" region, and so I believe that this set of error rates (the ones approximated by the average error rates,
+		is simply as low as it will get for this data with this classifier. 
+		
+Below is my code for the entire assignment.  The only difference in my code from part to part is that I
+of course varied the file names, and the parameters for the looping, for the portions of the assignment that had larger numbers of samples.
+This set of code contains parameters used for the final portion of the assignment.
+
+I could have made my code nicer, shorter and more succinct, but we are not being graded on our coding semantics, only our answers, and since this was a 
+relatively small and simple assignment I did not feel I needed to clean up my code too aggressively. 
+
+The first code snippet was used to find the threshold for each portion:
+
+%Take in the data for the C's
+cFile = fopen('HW02_data_c_NO_10.txt');
+cCount = [];
+disp('SHOWING C COUNTS...');
+cCount = countXs_C(cFile);
+disp('SHOWING C COUNT ARRAY:');
+%disp(cCount);
+fclose(cFile);
+
+%Take in the data for the E's
+disp('SHOWING E COUNTS...');
+eFile = fopen('HW02_data_e_NO_10.txt');
+eCount = [];
+eCount = countXs_C(eFile);
+disp('SHOWING E COUNT ARRAY:');
+%disp(eCount);
+fclose(eFile);
+
+%find the smallest and largest number of pixels
+small = min([min(cCount),min(eCount)]);
+large = max([max(cCount),max(eCount)]);
+
+disp(small);
+disp(large);
+
+%variables remembering the least number of errors, or miscalssifcations
+bestThresh = small;
+errors = 3600;
+lowestCerror = 1800;
+lowestEerror = 1800;
+
+%Go through each number of pixels trying each one out as the threshold value
+for t = small:large
+   eError = 0;
+   cError = 0;
+    for i = 1:1800
+		%if a value in the list of C pixels is greater than t it was misclassified
+       if cCount(i) >= t
+           cError = cError + 1;
+       end
+       
+       if eCount(i) < t
+            eError = eError + 1;
+       end
+    end
+	
+	%check the number of errors at each threshold
+	if (cError + eError) < errors
+		bestThresh = t;
+		errors = cError + eError;
+		lowestCerror = cError;
+		lowestEerror = eError;
+	end
+end
+
+disp(['The best threshold is: ',num2str(bestThresh)]);
+disp(['There are ',num2str(lowestCerror), ' misclassified Cs, error rate: ',num2str(lowestCerror/3600)]);
+disp(['There are ',num2str(lowestEerror), ' misclassified Es, error rate: ',num2str(lowestEerror/3600)]);
+
+
+
+This second snippet of code is almost identical to the above snippet, but here I did not need to calculate the threshold, I knew the this value from the above
+code run and simply plugged this value into the threshold variable at each run:
+
+%Take in the data for the C's
+cFile = fopen('HW02_data_c_10.txt');
+cCount = [];
+disp('SHOWING C COUNTS...');
+cCount = countXs_A(cFile);
+disp('SHOWING C COUNT ARRAY:');
+%disp(cCount);
+fclose(cFile);
+
+%Take in the data for the E's
+disp('SHOWING E COUNTS...');
+eFile = fopen('HW02_data_e_10.txt');
+eCount = [];
+eCount = countXs_A(eFile);
+disp('SHOWING E COUNT ARRAY:');
+%disp(eCount);
+fclose(eFile);
+
+t = 228;
+cError = 0;
+eError = 0;
+
+for i = 1:200
+    %if a value in the list of C pixels is greater than t it was misclassified
+   if cCount(i) >= t
+       cError = cError + 1;
+   end
+
+   if eCount(i) < t
+        eError = eError + 1;
+   end
+end
+    
+disp(['The error rate is ',num2str(cError/400), ' misclassified Cs']);
+disp(['The error rate is ',num2str(eError/400), ' misclassified Es']);
+
+
+
+Finally this last bit of code is the countXs_# function that appears in my above code, where the # is replaced by a letter indicating which portion of 
+the assignment I was completing, again here the only difference between the various countXs functions were the parameters for the number of samples in the file.
+
+
+function total = countXs_A(myFile)
+    total = [];
+    for i = 1:200
+		line = fgetl(myFile);
+		text = textscan(line, '%s %s %s %s');
+
+		% Get the height of each image
+		height = strrep(text{2}, 'h', '');
+		height = str2num(height{1});
+
+		% Get the width of each image
+		width = strrep(text{3}, 'w', '');
+		width = str2num(width{1});
+
+		xCount = 0;
+        top = 0;
+        
+		% Count all of the X's in each image
+		for n = 1:height
+			line = fgetl(myFile);
+			for x = 1:width
+				if line(x:x) == 'x'
+					xCount = xCount + 1;
+                    if n >= 1 && n <= 12
+                        top = top + 1;
+                    end
+				end
+			end
+        end
+        
+        bottom = xCount - top;
+        
+		topHeavy = floor(((100.0*top)/bottom)+.5);
+        
+		total = [total, topHeavy];
+
+    end
+	
+end
